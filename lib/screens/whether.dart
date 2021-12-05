@@ -65,17 +65,17 @@ class _WhetherPageState extends State<WhetherPage> {
                                   SizedBox(
                                     height: 7.0,
                                   ),
-                                  Text("SensorTiltX: " + snapshot.data[index].SensorTiltX,
+                                  Text("SensorTiltX: " +  (snapshot.data[index].SensorTiltX).toString(),
                                   style: kstylingforText,),
                                   SizedBox(
                                     height: 7.0,
                                   ),
-                                  Text("SensorTiltY: " + snapshot.data[index].SensorTiltY,
+                                  Text("SensorTiltY: " + (snapshot.data[index].SensorTiltY).toString(),
                                   style: kstylingforText,),
                                   SizedBox(
                                     height: 7.0,
                                   ),
-                                  Text("SensorTiltZ: " + snapshot.data[index].SensorTiltZ,
+                                  Text("SensorTiltZ: " + (snapshot.data[index].SensorTiltZ).toString(),
                                   style: kstylingforText,),
                                   SizedBox(
                                     height: 7.0,
@@ -85,32 +85,32 @@ class _WhetherPageState extends State<WhetherPage> {
                                   SizedBox(
                                     height: 7.0,
                                   ),
-                                  Text("PM01: " + snapshot.data[index].PM01,
+                                  Text("PM01: " + (snapshot.data[index].PM01).toString(),
                                   style: kstylingforText,),
                                   SizedBox(
                                     height: 7.0,
                                   ),
-                                  Text("PM2.5: " + snapshot.data[index].PM25,
+                                  Text("PM2.5: " + (snapshot.data[index].PM25).toString(),
                                   style: kstylingforText,),
                                   SizedBox(
                                     height: 7.0,
                                   ),
-                                  Text("PM10: " + snapshot.data[index].PM10,
+                                  Text("PM10: " + (snapshot.data[index].PM10).toString(),
                                   style: kstylingforText,),
                                   SizedBox(
                                     height: 7.0,
                                   ),
-                                  Text("Temprature: " + snapshot.data[index].Temprature,
+                                  Text("Temprature: " + (snapshot.data[index].Temprature).toString(),
                                   style: kstylingforText,),
                                   SizedBox(
                                     height: 7.0,
                                   ),
-                                  Text("Humidity: " + snapshot.data[index].Humidity,
+                                  Text("Humidity: " + (snapshot.data[index].Humidity).toString(),
                                   style: kstylingforText,),
                                   SizedBox(
                                     height: 7.0,
                                   ),
-                                  Text("SoilMoisture: " + snapshot.data[index].SoilMoisture,
+                                  Text("SoilMoisture: " + (snapshot.data[index].SoilMoisture).toString(),
                                   style: kstylingforText,),
                                   SizedBox(
                                     height: 7.0,
