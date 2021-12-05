@@ -14,7 +14,7 @@ class _WhetherPageState extends State<WhetherPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -30,10 +30,13 @@ class _WhetherPageState extends State<WhetherPage> {
                 indicatorColor: Colors.white,
                 tabs: [
                   Tab(
-                    child: Text('Data 1'),
+                    child: Text('Latest '),
                   ),
                   Tab(
-                    child: Text('Data 2'),
+                    child: Text('All Data'),
+                  ),
+                  Tab(
+                    child: Text('Data 3'),
                   ),
                 ]),
             preferredSize: Size.fromHeight(30.0),
@@ -43,7 +46,93 @@ class _WhetherPageState extends State<WhetherPage> {
           children: <Widget>[
             Container(
               child: FutureBuilder(
-              future: brainiac.getdata(),
+              future: brainiac.getLatestEntrydata(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.data == null) {
+                    return Container(
+                      child: Center(
+                        child: Text("Loading. . ."),
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          child: Expanded(child: ReusableCard(cardChild: Column(
+                            mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text("Id: " + snapshot.data[index].id,
+                                  style: kstylingforText,),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Text("SensorTiltX: " +  (snapshot.data[index].SensorTiltX).toString(),
+                                  style: kstylingforText,),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Text("SensorTiltY: " + (snapshot.data[index].SensorTiltY).toString(),
+                                  style: kstylingforText,),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Text("SensorTiltZ: " + (snapshot.data[index].SensorTiltZ).toString(),
+                                  style: kstylingforText,),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Text("SensorAlert: " + snapshot.data[index].SensorAlert,
+                                  style: kstylingforText,),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Text("PM01: " + (snapshot.data[index].PM01).toString(),
+                                  style: kstylingforText,),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Text("PM2.5: " + (snapshot.data[index].PM25).toString(),
+                                  style: kstylingforText,),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Text("PM10: " + (snapshot.data[index].PM10).toString(),
+                                  style: kstylingforText,),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Text("Temprature: " + (snapshot.data[index].Temprature).toString(),
+                                  style: kstylingforText,),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Text("Humidity: " + (snapshot.data[index].Humidity).toString(),
+                                  style: kstylingforText,),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Text("SoilMoisture: " + (snapshot.data[index].SoilMoisture).toString(),
+                                  style: kstylingforText,),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                 
+
+                                ]
+                          ),),),
+                        );
+                         },
+                    );
+                  }
+                },
+              ),
+            ),
+
+            Container(
+              child: FutureBuilder(
+              future: brainiac.getAlldata(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.data == null) {
                     return Container(

@@ -6,29 +6,56 @@ import 'package:flutter/material.dart';
 // const apikey = '065a9f57a03f4ce897dfa1356aa2ba99';
 
 class Brainiac {
-  Future<List<DataforCard>> getdata() async {
+  Future<List<DataforCard>> getLatestEntrydata() async {
      DataforCard actualData = DataforCard(
        id: "", Date_Time: "", SensorTiltX:null  , SensorTiltY:null , SensorTiltZ:null , SensorAlert: null, PM01:null , PM10:null , PM25:null, Temprature:null , Humidity:null , SoilMoisture:null 
        );
     final response = await http.get(
       Uri.parse('https://env-station-backend.herokuapp.com/backend/LatestEntry/'), );
       List<DataforCard> newsitems = [];
-      print(response.body);
+      // print(response.body);
       if (response.statusCode == 200) {
-        print("Coming till here ???");
-        var k = jsonDecode(response.body);
-        print(k['DateTime']);
-        print((k['DateTime']).runtimeType);
-        print(k['Temprature']);
-        print((k['Temprature']).runtimeType);
+        // print("Coming till here ???");
+        // var k = jsonDecode(response.body);
+        // print(k['DateTime']);
+        // print((k['DateTime']).runtimeType);
+        // print(k['Temprature']);
+        // print((k['Temprature']).runtimeType);
 
 
-        print(actualData);
-        print(DataforCard.fromJson(jsonDecode(response.body)));
+        // print(actualData);
+        // print(DataforCard.fromJson(jsonDecode(response.body)));
         actualData = DataforCard.fromJson(jsonDecode(response.body));
-        print("Then ... coming till here");
-        print(actualData);
+        // print("Then ... coming till here");
+        // print(actualData);
         newsitems.add(actualData);
+      }
+      else {
+        print("Something Wrong has happened");
+      }
+    // print(newsitems);
+    return newsitems;
+  }
+
+
+
+  Future<List<DataforCard>> getAlldata() async {
+     DataforCard actualData = DataforCard(
+       id: "", Date_Time: "", SensorTiltX:null  , SensorTiltY:null , SensorTiltZ:null , SensorAlert: null, PM01:null , PM10:null , PM25:null, Temprature:null , Humidity:null , SoilMoisture:null 
+       );
+    final response = await http.get(
+      Uri.parse('https://env-station-backend.herokuapp.com/backend/AllData/'), );
+      List<DataforCard> newsitems = [];
+      print(response.body); 
+      if (response.statusCode == 200) {
+         List<dynamic> data = json.decode(response.body);
+         data.forEach((element) {
+           actualData = DataforCard.fromJson(element);
+           newsitems.add(actualData);
+         });
+
+        // actualData = DataforCard.fromJson(jsonDecode(response.body));
+        // newsitems.add(actualData);
       }
       else {
         print("Something Wrong has happened");
