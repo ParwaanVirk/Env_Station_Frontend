@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:env_station/brain.dart';
 import 'package:env_station/constants.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 class WhetherPage extends StatefulWidget {
   const WhetherPage({Key key}) : super(key: key);
 
@@ -16,6 +17,50 @@ class _WhetherPageState extends State<WhetherPage> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        floatingActionButton:  SpeedDial(
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 22),
+          backgroundColor: Color(0xFF801E48),
+          visible: true,
+          curve: Curves.bounceIn,
+          children: [
+                // FAB 1
+                SpeedDialChild(
+                child: Icon(Icons.delete),
+                backgroundColor: Color(0xFF801E48),
+                
+                onTap: () { 
+                  
+                  brainiac.DeleteExcessEntries();
+                  setState(() {
+                    
+                  });
+                 },
+                label: 'Delete',
+                labelStyle: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontSize: 16.0),
+                labelBackgroundColor: Color(0xFF801E48)),
+                // FAB 2
+                SpeedDialChild(
+                child: Icon(Icons.refresh_sharp),
+                backgroundColor: Color(0xFF801E48),
+                onTap: () {
+                   brainiac.ScrapeNewEntries();
+                   setState(() {
+                     
+                   });
+                   
+                },
+                label: 'Refresh',
+                labelStyle: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontSize: 16.0),
+                labelBackgroundColor: Color(0xFF801E48))
+          ],
+        ), 
         appBar: AppBar(
           centerTitle: true,
           title: Text(
@@ -63,7 +108,7 @@ class _WhetherPageState extends State<WhetherPage> {
                             mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text("Id: " + snapshot.data[index].id,
+                                  Text("DateTime: " + snapshot.data[index].Date_Time,
                                   style: kstylingforText,),
                                   SizedBox(
                                     height: 7.0,
@@ -149,7 +194,7 @@ class _WhetherPageState extends State<WhetherPage> {
                             mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text("Id: " + snapshot.data[index].id,
+                                  Text("Id: " + snapshot.data[index].Date_Time,
                                   style: kstylingforText,),
                                   SizedBox(
                                     height: 7.0,
@@ -244,11 +289,11 @@ class _WhetherPageState extends State<WhetherPage> {
         ),
       ),
     );
+
+
+    
   }
 }
-
-
-
 
 class ReusableCard extends StatelessWidget {
   const ReusableCard({ Key key, 
@@ -272,3 +317,46 @@ class ReusableCard extends StatelessWidget {
     );
   }
 }
+
+
+
+// Widget _getFAB() {
+//   Brainiac brainiac = Brainiac();
+//         return SpeedDial(
+//           animatedIcon: AnimatedIcons.menu_close,
+//           animatedIconTheme: IconThemeData(size: 22),
+//           backgroundColor: Color(0xFF801E48),
+//           visible: true,
+//           curve: Curves.bounceIn,
+//           children: [
+//                 // FAB 1
+//                 SpeedDialChild(
+//                 child: Icon(Icons.delete),
+//                 backgroundColor: Color(0xFF801E48),
+//                 onTap: () { 
+                  
+//                   brainiac.DeleteExcessEntries();
+//                  },
+//                 label: 'Delete Excess Entries',
+//                 labelStyle: TextStyle(
+//                     fontWeight: FontWeight.w500,
+//                     color: Colors.white,
+//                     fontSize: 16.0),
+//                 labelBackgroundColor: Color(0xFF801E48)),
+//                 // FAB 2
+//                 SpeedDialChild(
+//                 child: Icon(Icons.refresh_sharp),
+//                 backgroundColor: Color(0xFF801E48),
+//                 onTap: () {
+//                    brainiac.ScrapeNewEntries();
+                   
+//                 },
+//                 label: 'Refresh',
+//                 labelStyle: TextStyle(
+//                     fontWeight: FontWeight.w500,
+//                     color: Colors.white,
+//                     fontSize: 16.0),
+//                 labelBackgroundColor: Color(0xFF801E48))
+//           ],
+//         );
+// }

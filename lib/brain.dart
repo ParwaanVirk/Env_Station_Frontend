@@ -13,27 +13,16 @@ class Brainiac {
     final response = await http.get(
       Uri.parse('https://env-station-backend.herokuapp.com/backend/LatestEntry/'), );
       List<DataforCard> newsitems = [];
-      // print(response.body);
+
       if (response.statusCode == 200) {
-        // print("Coming till here ???");
-        // var k = jsonDecode(response.body);
-        // print(k['DateTime']);
-        // print((k['DateTime']).runtimeType);
-        // print(k['Temprature']);
-        // print((k['Temprature']).runtimeType);
 
-
-        // print(actualData);
-        // print(DataforCard.fromJson(jsonDecode(response.body)));
         actualData = DataforCard.fromJson(jsonDecode(response.body));
-        // print("Then ... coming till here");
-        // print(actualData);
+
         newsitems.add(actualData);
       }
       else {
         print("Something Wrong has happened");
       }
-    // print(newsitems);
     return newsitems;
   }
 
@@ -53,15 +42,47 @@ class Brainiac {
            actualData = DataforCard.fromJson(element);
            newsitems.add(actualData);
          });
-
-        // actualData = DataforCard.fromJson(jsonDecode(response.body));
-        // newsitems.add(actualData);
       }
       else {
         print("Something Wrong has happened");
       }
     print(newsitems);
     return newsitems;
+  }
+
+
+
+  Future<String> DeleteExcessEntries() async {
+    
+    final response = await http.delete(
+      Uri.parse('https://env-station-backend.herokuapp.com/backend/DeleteExcessEntries/'), );
+
+      if (response.statusCode == 200) {
+          getAlldata();
+         getLatestEntrydata();
+         print(response.body);
+         return response.body;
+      }
+      else {
+        return "Something Wrong has happened";
+      }
+  }
+
+  Future<String> ScrapeNewEntries() async {
+    
+    final response = await http.post(
+      Uri.parse('https://env-station-backend.herokuapp.com/backend/NewEntries/'), );
+
+      if (response.statusCode == 200) {
+         getAlldata();
+         getLatestEntrydata();
+         print(response.body);
+         return response.body;
+
+      }
+      else {
+        return "Something Wrong has happened";
+      }
   }
 }
 
