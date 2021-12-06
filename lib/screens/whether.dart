@@ -104,69 +104,73 @@ class _WhetherPageState extends State<WhetherPage> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Card(
-                          child: Expanded(child: ReusableCard(cardChild: Column(
-                            mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text("DateTime: " + snapshot.data[index].Date_Time,
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("SensorTiltX: " +  (snapshot.data[index].SensorTiltX).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("SensorTiltY: " + (snapshot.data[index].SensorTiltY).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("SensorTiltZ: " + (snapshot.data[index].SensorTiltZ).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("SensorAlert: " + snapshot.data[index].SensorAlert,
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("PM01: " + (snapshot.data[index].PM01).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("PM2.5: " + (snapshot.data[index].PM25).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("PM10: " + (snapshot.data[index].PM10).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("Temprature: " + (snapshot.data[index].Temprature).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("Humidity: " + (snapshot.data[index].Humidity).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("SoilMoisture: " + (snapshot.data[index].SoilMoisture).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                 
+                          child: Column(
+                            children: [
+                              ReusableCard(cardChild: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("DateTime: " + snapshot.data[index].Date_Time,
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorTiltX: " +  (snapshot.data[index].SensorTiltX).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorTiltY: " + (snapshot.data[index].SensorTiltY).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorTiltZ: " + (snapshot.data[index].SensorTiltZ).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorAlert: " + snapshot.data[index].SensorAlert,
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("PM01: " + (snapshot.data[index].PM01).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("PM2.5: " + (snapshot.data[index].PM25).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("PM10: " + (snapshot.data[index].PM10).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("Temprature: " + (snapshot.data[index].Temprature).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("Humidity: " + (snapshot.data[index].Humidity).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SoilMoisture: " + (snapshot.data[index].SoilMoisture).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                     
 
-                                ]
-                          ),),),
+                                    ]
+                              ),),
+                            ],
+                          ),
                         );
                          },
                     );
@@ -190,69 +194,73 @@ class _WhetherPageState extends State<WhetherPage> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Card(
-                          child: Expanded(child: ReusableCard(cardChild: Column(
-                            mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text("Id: " + snapshot.data[index].Date_Time,
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("SensorTiltX: " +  (snapshot.data[index].SensorTiltX).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("SensorTiltY: " + (snapshot.data[index].SensorTiltY).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("SensorTiltZ: " + (snapshot.data[index].SensorTiltZ).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("SensorAlert: " + snapshot.data[index].SensorAlert,
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("PM01: " + (snapshot.data[index].PM01).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("PM2.5: " + (snapshot.data[index].PM25).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("PM10: " + (snapshot.data[index].PM10).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("Temprature: " + (snapshot.data[index].Temprature).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("Humidity: " + (snapshot.data[index].Humidity).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  Text("SoilMoisture: " + (snapshot.data[index].SoilMoisture).toString(),
-                                  style: kstylingforText,),
-                                  SizedBox(
-                                    height: 7.0,
-                                  ),
-                                 
+                          child: Column(
+                            children: [
+                              ReusableCard(cardChild: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("DateTime: " + snapshot.data[index].Date_Time,
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorTiltX: " +  (snapshot.data[index].SensorTiltX).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorTiltY: " + (snapshot.data[index].SensorTiltY).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorTiltZ: " + (snapshot.data[index].SensorTiltZ).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorAlert: " + snapshot.data[index].SensorAlert,
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("PM01: " + (snapshot.data[index].PM01).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("PM2.5: " + (snapshot.data[index].PM25).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("PM10: " + (snapshot.data[index].PM10).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("Temprature: " + (snapshot.data[index].Temprature).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("Humidity: " + (snapshot.data[index].Humidity).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SoilMoisture: " + (snapshot.data[index].SoilMoisture).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                     
 
-                                ]
-                          ),),),
+                                    ]
+                              ),),
+                            ],
+                          ),
                         );
                          },
                     );
