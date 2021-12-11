@@ -12,10 +12,46 @@ class WhetherPage extends StatefulWidget {
 class _WhetherPageState extends State<WhetherPage> {
   Brainiac brainiac = Brainiac();
 
+  Future<List<DataforCard>> _listFuture;
+  Future<List<DataforCard>> _listFutureAll;
+
+
+
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    _listFuture = brainiac.getLatestEntrydata();
+    // _listFutureAll = brainiac.getAlldata();
+  }
+
+
+
+  void refreshList() {
+    setState(() {
+    _listFuture = brainiac.getLatestEntrydata();
+    // print(_listFuture);
+    // _listFutureAll = brainiac.getAlldata();
+    // print(_listFutureAll);
+    });
+  }
+
+  void deleteList() {
+    setState(() {
+    _listFuture = brainiac.getLatestEntrydata();
+    // print(_listFuture);
+    // _listFutureAll = brainiac.getAlldata();
+    // print(_listFutureAll);
+    });
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         floatingActionButton:  SpeedDial(
           animatedIcon: AnimatedIcons.menu_close,
@@ -29,12 +65,9 @@ class _WhetherPageState extends State<WhetherPage> {
                 child: Icon(Icons.delete),
                 backgroundColor: Color(0xFF801E48),
                 
-                onTap: () { 
-                  
-                  brainiac.DeleteExcessEntries();
-                  setState(() {
-                    
-                  });
+                onTap: ()async { 
+                  var k = await brainiac.DeleteExcessEntries();
+                  deleteList();
                  },
                 label: 'Delete',
                 labelStyle: TextStyle(
@@ -46,11 +79,9 @@ class _WhetherPageState extends State<WhetherPage> {
                 SpeedDialChild(
                 child: Icon(Icons.refresh_sharp),
                 backgroundColor: Color(0xFF801E48),
-                onTap: () {
-                   brainiac.ScrapeNewEntries();
-                   setState(() {
-                     
-                   });
+                onTap: ()async {
+                  var l = await brainiac.ScrapeNewEntries();
+                   refreshList();
                    
                 },
                 label: 'Refresh',
@@ -77,11 +108,11 @@ class _WhetherPageState extends State<WhetherPage> {
                   Tab(
                     child: Text('Latest '),
                   ),
+                  // Tab(
+                  //   child: Text('All Data'),
+                  // ),
                   Tab(
-                    child: Text('All Data'),
-                  ),
-                  Tab(
-                    child: Text('Data 3'),
+                    child: Text('Accuweather'),
                   ),
                 ]),
             preferredSize: Size.fromHeight(30.0),
@@ -91,183 +122,56 @@ class _WhetherPageState extends State<WhetherPage> {
           children: <Widget>[
             Container(
               child: FutureBuilder(
-              future: brainiac.getLatestEntrydata(),
+              future: _listFuture,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.data == null) {
+                  if (snapshot.connectionState == ConnectionState.none || snapshot.connectionState == ConnectionState.waiting) {
                     return Container(
                       child: Center(
                         child: Text("Loading. . ."),
                       ),
                     );
-                  } else {
-                    return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Card(
-                          child: Column(
-                            children: [
-                              ReusableCard(cardChild: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text("DateTime: " + snapshot.data[index].Date_Time,
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("SensorTiltX: " +  (snapshot.data[index].SensorTiltX).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("SensorTiltY: " + (snapshot.data[index].SensorTiltY).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("SensorTiltZ: " + (snapshot.data[index].SensorTiltZ).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("SensorAlert: " + snapshot.data[index].SensorAlert,
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("PM01: " + (snapshot.data[index].PM01).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("PM2.5: " + (snapshot.data[index].PM25).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("PM10: " + (snapshot.data[index].PM10).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("Temprature: " + (snapshot.data[index].Temprature).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("Humidity: " + (snapshot.data[index].Humidity).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("SoilMoisture: " + (snapshot.data[index].SoilMoisture).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                     
-
-                                    ]
-                              ),),
-                            ],
-                          ),
-                        );
-                         },
+                  }  
+                  if(snapshot.hasError && snapshot.connectionState == ConnectionState.done) 
+                    return Container(child: Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    ),);
+                  if(snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                    return CardList(context, snapshot);
+                  }
+                  else {
+                    return Container(
+                      child: Center(
+                        child: Text("Unknown Error. . ."),
+                      ),
                     );
                   }
                 },
               ),
             ),
 
-            Container(
-              child: FutureBuilder(
-              future: brainiac.getAlldata(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.data == null) {
-                    return Container(
-                      child: Center(
-                        child: Text("Loading. . ."),
-                      ),
-                    );
-                  } else {
-                    return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Card(
-                          child: Column(
-                            children: [
-                              ReusableCard(cardChild: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text("DateTime: " + snapshot.data[index].Date_Time,
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("SensorTiltX: " +  (snapshot.data[index].SensorTiltX).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("SensorTiltY: " + (snapshot.data[index].SensorTiltY).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("SensorTiltZ: " + (snapshot.data[index].SensorTiltZ).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("SensorAlert: " + snapshot.data[index].SensorAlert,
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("PM01: " + (snapshot.data[index].PM01).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("PM2.5: " + (snapshot.data[index].PM25).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("PM10: " + (snapshot.data[index].PM10).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("Temprature: " + (snapshot.data[index].Temprature).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("Humidity: " + (snapshot.data[index].Humidity).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Text("SoilMoisture: " + (snapshot.data[index].SoilMoisture).toString(),
-                                      style: kstylingforText,),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                     
-
-                                    ]
-                              ),),
-                            ],
-                          ),
-                        );
-                         },
-                    );
-                  }
-                },
-              ),
-            ),
+            // Container(
+            //   child: FutureBuilder(
+            //   future:_listFutureAll,
+            //     builder: (BuildContext context, AsyncSnapshot snapshot) {
+            //       if (snapshot.connectionState == ConnectionState.none || snapshot.connectionState == ConnectionState.waiting) {
+            //         return Container(
+            //           child: Center(
+            //             child: Text("Loading. . ."),
+            //           ),
+            //         );
+            //       }if(snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+            //         return CardList(context, snapshot);
+            //       }
+            //       else {
+            //         return Container(
+            //           child: Center(
+            //             child: Text("Unknown Error. . ."),
+            //           ),
+            //         );
+            //       }
+            //     },
+            //   ),
+            // ),
             
             Container(
                child: Center(
@@ -326,45 +230,84 @@ class ReusableCard extends StatelessWidget {
   }
 }
 
+Widget CardList(BuildContext context, AsyncSnapshot snapshot) {
+  return ListView.builder(      
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          child: Column(
+                            children: [
+                              ReusableCard(cardChild: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("Id:  " + snapshot.data[index].id,
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("DateTime: " + snapshot.data[index].Date_Time,
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorTiltX: " +  (snapshot.data[index].SensorTiltX).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorTiltY: " + (snapshot.data[index].SensorTiltY).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorTiltZ: " + (snapshot.data[index].SensorTiltZ).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SensorAlert: " + snapshot.data[index].SensorAlert,
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("PM01: " + (snapshot.data[index].PM01).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("PM2.5: " + (snapshot.data[index].PM25).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("PM10: " + (snapshot.data[index].PM10).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("Temprature: " + (snapshot.data[index].Temprature).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("Humidity: " + (snapshot.data[index].Humidity).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                      Text("SoilMoisture: " + (snapshot.data[index].SoilMoisture).toString(),
+                                      style: kstylingforText,),
+                                      SizedBox(
+                                        height: 7.0,
+                                      ),
+                                     
 
-
-// Widget _getFAB() {
-//   Brainiac brainiac = Brainiac();
-//         return SpeedDial(
-//           animatedIcon: AnimatedIcons.menu_close,
-//           animatedIconTheme: IconThemeData(size: 22),
-//           backgroundColor: Color(0xFF801E48),
-//           visible: true,
-//           curve: Curves.bounceIn,
-//           children: [
-//                 // FAB 1
-//                 SpeedDialChild(
-//                 child: Icon(Icons.delete),
-//                 backgroundColor: Color(0xFF801E48),
-//                 onTap: () { 
-                  
-//                   brainiac.DeleteExcessEntries();
-//                  },
-//                 label: 'Delete Excess Entries',
-//                 labelStyle: TextStyle(
-//                     fontWeight: FontWeight.w500,
-//                     color: Colors.white,
-//                     fontSize: 16.0),
-//                 labelBackgroundColor: Color(0xFF801E48)),
-//                 // FAB 2
-//                 SpeedDialChild(
-//                 child: Icon(Icons.refresh_sharp),
-//                 backgroundColor: Color(0xFF801E48),
-//                 onTap: () {
-//                    brainiac.ScrapeNewEntries();
-                   
-//                 },
-//                 label: 'Refresh',
-//                 labelStyle: TextStyle(
-//                     fontWeight: FontWeight.w500,
-//                     color: Colors.white,
-//                     fontSize: 16.0),
-//                 labelBackgroundColor: Color(0xFF801E48))
-//           ],
-//         );
-// }
+                                    ]
+                              ),),
+                            ],
+                          ),
+                        );
+                         },
+                    );
+}

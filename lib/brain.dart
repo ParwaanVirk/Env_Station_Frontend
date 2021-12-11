@@ -46,7 +46,7 @@ class Brainiac {
       else {
         print("Something Wrong has happened");
       }
-    print(newsitems);
+    // print(newsitems);
     return newsitems;
   }
 
@@ -58,9 +58,10 @@ class Brainiac {
       Uri.parse('https://env-station-backend.herokuapp.com/backend/DeleteExcessEntries/'), );
 
       if (response.statusCode == 200) {
-          getAlldata();
-         getLatestEntrydata();
-         print(response.body);
+          print("Delete Function ran Successfully");
+          print(response.body);
+          // getAlldata();
+          // getLatestEntrydata();   
          return response.body;
       }
       else {
@@ -74,10 +75,11 @@ class Brainiac {
       Uri.parse('https://env-station-backend.herokuapp.com/backend/NewEntries/'), );
 
       if (response.statusCode == 200) {
-         getAlldata();
-         getLatestEntrydata();
+        print("refresh function ran successfully");
+        //  getAlldata();
+        //  getLatestEntrydata();
          print(response.body);
-         return response.body;
+         return response.body; 
 
       }
       else {
