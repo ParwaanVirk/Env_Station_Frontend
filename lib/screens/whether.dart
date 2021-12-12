@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:env_station/brain.dart';
 import 'package:env_station/constants.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 class WhetherPage extends StatefulWidget {
   const WhetherPage({Key key}) : super(key: key);
 
@@ -13,7 +15,8 @@ class _WhetherPageState extends State<WhetherPage> {
   Brainiac brainiac = Brainiac();
 
   Future<List<DataforCard>> _listFuture;
-  Future<List<DataforCard>> _listFutureAll;
+  bool loading = false;
+  // Future<List<DataforCard>> _listFutureAll;
 
 
 
@@ -47,7 +50,21 @@ class _WhetherPageState extends State<WhetherPage> {
     });
   }
 
-  
+
+   Container loadingContainer() {
+    return Container(
+      // color: Colors.green[200],
+      child: Center(
+        child: SpinKitRing(
+          color: Colors.green[200],
+          size: 45.0,
+        ),
+      ),
+    );
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -66,7 +83,10 @@ class _WhetherPageState extends State<WhetherPage> {
                 backgroundColor: Color(0xFF801E48),
                 
                 onTap: ()async { 
-                  var k = await brainiac.DeleteExcessEntries();
+                  setState(()  => loading = true);
+                  String k = await brainiac.deleteExcessEntries();
+                  setState(()  => loading = false);
+                  ScaffoldMessenger.of(context).showSnackBar(snackBarWid(context, k));
                   deleteList();
                  },
                 label: 'Delete',
@@ -80,7 +100,10 @@ class _WhetherPageState extends State<WhetherPage> {
                 child: Icon(Icons.refresh_sharp),
                 backgroundColor: Color(0xFF801E48),
                 onTap: ()async {
-                  var l = await brainiac.ScrapeNewEntries();
+                  setState(()  => loading = true);
+                  var k = await brainiac.scrapeNewEntries();
+                  setState(()  => loading = false);
+                  ScaffoldMessenger.of(context).showSnackBar(snackBarWid(context, k));
                    refreshList();
                    
                 },
@@ -118,13 +141,20 @@ class _WhetherPageState extends State<WhetherPage> {
             preferredSize: Size.fromHeight(30.0),
           ),
         ),
-        body: TabBarView(
+        body: loading ? loadingContainer() : TabBarView(
           children: <Widget>[
             Container(
               child: FutureBuilder(
               future: _listFuture,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.none || snapshot.connectionState == ConnectionState.waiting) {
+                  if (snapshot.connectionState == ConnectionState.none ) {
+                    return Container(
+                      child: Center(
+                        child: Text("Loading . . ."),
+                      ),
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return Container(
                       child: Center(
                         child: Text("Loading. . ."),
@@ -136,7 +166,7 @@ class _WhetherPageState extends State<WhetherPage> {
                       child: Text('Error: ${snapshot.error}'),
                     ),);
                   if(snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-                    return CardList(context, snapshot);
+                    return cardList(context, snapshot);
                   }
                   else {
                     return Container(
@@ -178,24 +208,7 @@ class _WhetherPageState extends State<WhetherPage> {
                         child: Text("Backend Incomplete"),
                       ),
                     
-              // child: FutureBuilder(
-              // // future: brainiac.getdata('abc-news'),
-              //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-              //     if (snapshot.data == null) {
-              //       return Container(
-              //         child: Center(
-              //           child: Text("Loading. . ."),
-              //         ),
-              //       );
-              //     } else {
-              //       return ListView.builder(
-              //         itemCount: snapshot.data.length,
-              //         itemBuilder: (BuildContext context, int index) {
-              //            },
-              //       );
-              //     }
-              //   },
-              // )
+            
             ),
           ]
         ),
@@ -206,6 +219,14 @@ class _WhetherPageState extends State<WhetherPage> {
     
   }
 }
+
+Widget snackBarWid(BuildContext context, String data) {
+
+
+   return SnackBar(content: Text(data));
+}
+
+
 
 class ReusableCard extends StatelessWidget {
   const ReusableCard({ Key key, 
@@ -230,7 +251,7 @@ class ReusableCard extends StatelessWidget {
   }
 }
 
-Widget CardList(BuildContext context, AsyncSnapshot snapshot) {
+Widget cardList(BuildContext context, AsyncSnapshot snapshot) {
   return ListView.builder(      
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -246,57 +267,57 @@ Widget CardList(BuildContext context, AsyncSnapshot snapshot) {
                                       SizedBox(
                                         height: 7.0,
                                       ),
-                                      Text("DateTime: " + snapshot.data[index].Date_Time,
+                                      Text("DateTime: " + snapshot.data[index].dateTime,
                                       style: kstylingforText,),
                                       SizedBox(
                                         height: 7.0,
                                       ),
-                                      Text("SensorTiltX: " +  (snapshot.data[index].SensorTiltX).toString(),
+                                      Text("SensorTiltX: " +  (snapshot.data[index].sensorTiltX).toString(),
                                       style: kstylingforText,),
                                       SizedBox(
                                         height: 7.0,
                                       ),
-                                      Text("SensorTiltY: " + (snapshot.data[index].SensorTiltY).toString(),
+                                      Text("SensorTiltY: " + (snapshot.data[index].sensorTiltY).toString(),
                                       style: kstylingforText,),
                                       SizedBox(
                                         height: 7.0,
                                       ),
-                                      Text("SensorTiltZ: " + (snapshot.data[index].SensorTiltZ).toString(),
+                                      Text("SensorTiltZ: " + (snapshot.data[index].sensorTiltZ).toString(),
                                       style: kstylingforText,),
                                       SizedBox(
                                         height: 7.0,
                                       ),
-                                      Text("SensorAlert: " + snapshot.data[index].SensorAlert,
+                                      Text("SensorAlert: " + snapshot.data[index].sensorAlert,
                                       style: kstylingforText,),
                                       SizedBox(
                                         height: 7.0,
                                       ),
-                                      Text("PM01: " + (snapshot.data[index].PM01).toString(),
+                                      Text("PM01: " + (snapshot.data[index].pM01).toString(),
                                       style: kstylingforText,),
                                       SizedBox(
                                         height: 7.0,
                                       ),
-                                      Text("PM2.5: " + (snapshot.data[index].PM25).toString(),
+                                      Text("PM2.5: " + (snapshot.data[index].pM25).toString(),
                                       style: kstylingforText,),
                                       SizedBox(
                                         height: 7.0,
                                       ),
-                                      Text("PM10: " + (snapshot.data[index].PM10).toString(),
+                                      Text("PM10: " + (snapshot.data[index].pM10).toString(),
                                       style: kstylingforText,),
                                       SizedBox(
                                         height: 7.0,
                                       ),
-                                      Text("Temprature: " + (snapshot.data[index].Temprature).toString(),
+                                      Text("Temprature: " + (snapshot.data[index].temprature).toString(),
                                       style: kstylingforText,),
                                       SizedBox(
                                         height: 7.0,
                                       ),
-                                      Text("Humidity: " + (snapshot.data[index].Humidity).toString(),
+                                      Text("Humidity: " + (snapshot.data[index].humidity).toString(),
                                       style: kstylingforText,),
                                       SizedBox(
                                         height: 7.0,
                                       ),
-                                      Text("SoilMoisture: " + (snapshot.data[index].SoilMoisture).toString(),
+                                      Text("SoilMoisture: " + (snapshot.data[index].soilMoisture).toString(),
                                       style: kstylingforText,),
                                       SizedBox(
                                         height: 7.0,

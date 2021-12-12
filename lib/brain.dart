@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 class Brainiac {
   Future<List<DataforCard>> getLatestEntrydata() async {
      DataforCard actualData = DataforCard(
-       id: "", Date_Time: "", SensorTiltX:null  , SensorTiltY:null , SensorTiltZ:null , SensorAlert: null, PM01:null , PM10:null , PM25:null, Temprature:null , Humidity:null , SoilMoisture:null 
+       id: "", dateTime: "", sensorTiltX:null  , sensorTiltY:null , sensorTiltZ:null , sensorAlert: null, pM01:null , pM10:null , pM25:null, temprature:null , humidity:null , soilMoisture:null 
+   
        );
     final response = await http.get(
       Uri.parse('https://env-station-backend.herokuapp.com/backend/LatestEntry/'), );
@@ -30,7 +31,7 @@ class Brainiac {
 
   Future<List<DataforCard>> getAlldata() async {
      DataforCard actualData = DataforCard(
-       id: "", Date_Time: "", SensorTiltX:null  , SensorTiltY:null , SensorTiltZ:null , SensorAlert: null, PM01:null , PM10:null , PM25:null, Temprature:null , Humidity:null , SoilMoisture:null 
+       id: "", dateTime: "", sensorTiltX:null  , sensorTiltY:null , sensorTiltZ:null , sensorAlert: null, pM01:null , pM10:null , pM25:null, temprature:null , humidity:null , soilMoisture:null 
        );
     final response = await http.get(
       Uri.parse('https://env-station-backend.herokuapp.com/backend/AllData/'), );
@@ -52,7 +53,7 @@ class Brainiac {
 
 
 
-  Future<String> DeleteExcessEntries() async {
+  Future<String> deleteExcessEntries() async {
     
     final response = await http.delete(
       Uri.parse('https://env-station-backend.herokuapp.com/backend/DeleteExcessEntries/'), );
@@ -65,11 +66,11 @@ class Brainiac {
          return response.body;
       }
       else {
-        return "Something Wrong has happened";
+        return "Something Wrong occurred";
       }
   }
 
-  Future<String> ScrapeNewEntries() async {
+  Future<String> scrapeNewEntries() async {
     
     final response = await http.post(
       Uri.parse('https://env-station-backend.herokuapp.com/backend/NewEntries/'), );
@@ -83,54 +84,54 @@ class Brainiac {
 
       }
       else {
-        return "Something Wrong has happened";
+        return "Something Wrong occurred";
       }
   }
 }
 
 class DataforCard {
   final String id;
-  final String Date_Time;
-  final double SensorTiltX;
-  final double SensorTiltY;
-  final double SensorTiltZ;
-  final String SensorAlert;
-  final double PM01;
-  final double PM25;
-  final double PM10;
-  final double Temprature;
-  final double Humidity;
-  final double SoilMoisture;
+  final String dateTime;
+  final double sensorTiltX;
+  final double sensorTiltY;
+  final double sensorTiltZ;
+  final String sensorAlert;
+  final double pM01;
+  final double pM25;
+  final double pM10;
+  final double temprature;
+  final double humidity;
+  final double soilMoisture;
 
   DataforCard({
     @required this.id, 
-    @required this.Date_Time,
-    @required this.SensorTiltX, 
-    @required this.SensorTiltY,
-    @required this.SensorTiltZ, 
-    @required this.SensorAlert, 
-    @required this.PM01,
-    @required this.PM25, 
-    @required this.PM10,
-    @required this.Temprature, 
-    @required this.Humidity, 
-    @required this.SoilMoisture
+    @required this.dateTime,
+    @required this.sensorTiltX, 
+    @required this.sensorTiltY,
+    @required this.sensorTiltZ, 
+    @required this.sensorAlert, 
+    @required this.pM01,
+    @required this.pM25, 
+    @required this.pM10,
+    @required this.temprature, 
+    @required this.humidity, 
+    @required this.soilMoisture
   });
 
   factory DataforCard.fromJson(Map<String, dynamic> json){
      return DataforCard(
           id : json['id'],
-          Date_Time: json['DateTime'],
-          SensorTiltX: json['SensorTiltX'],
-          SensorTiltY: json['SensorTiltY'],
-          SensorTiltZ: json['SensorTiltZ'],
-          SensorAlert: json['SensorAlert'],
-          PM01: json['PM01'],
-          PM25: json['PM25'],
-          PM10: json['PM10'],
-          Temprature: json['Temprature'],
-          Humidity: json['Humidity'],
-          SoilMoisture: json['SoilMoisture'],
+          dateTime: json['DateTime'],
+          sensorTiltX: json['SensorTiltX'],
+          sensorTiltY: json['SensorTiltY'],
+          sensorTiltZ: json['SensorTiltZ'],
+          sensorAlert: json['SensorAlert'],
+          pM01: json['PM01'],
+          pM25: json['PM25'],
+          pM10: json['PM10'],
+          temprature: json['Temprature'],
+          humidity: json['Humidity'],
+          soilMoisture: json['SoilMoisture'],
      );
    }
 

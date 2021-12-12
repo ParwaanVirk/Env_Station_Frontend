@@ -30,6 +30,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.12.1
   flutter_speed_dial: ^4.4.0
+  flutter_spinkit: "^4.1.2"
+
 
 
 dev_dependencies:
